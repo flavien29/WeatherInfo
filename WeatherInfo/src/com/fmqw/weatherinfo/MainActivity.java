@@ -16,6 +16,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * @author flavien
+ *
+ */
 public class MainActivity extends Activity {
   // La chaîne de caractères par défaut
   private final String defaut = "Vous devez cliquer sur le bouton « Calculer l'IMC » pour obtenir un résultat.";
@@ -31,7 +35,6 @@ public class MainActivity extends Activity {
   RadioGroup group = null;
 	
   TextView result = null;
-	
   CheckBox mega = null;
 	
   @Override
