@@ -3,36 +3,50 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" 
   android:orientation="vertical">
-  <TextView 
+  <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:text="Poids : "
-    android:textStyle="bold"
-    android:textColor="#FF0000"
-    android:gravity="center"
-  />
-  <EditText 
-    android:id="@+id/poids"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+  >
+    <TextView 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" 
+      android:text="Poids : "
+      android:textStyle="bold"
+      android:textColor="#FF0000"
+      android:gravity="center"
+    />
+    <EditText 
+      android:id="@+id/poids"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content" 
+      android:hint="Poids"
+      android:inputType="numberDecimal"
+      android:layout_weight="1"
+    />
+  </LinearLayout>
+  <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:hint="Poids"
-    android:inputType="numberDecimal"
-  />
-  <TextView 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:text="Taille : "
-    android:textStyle="bold"
-    android:textColor="#FF0000"
-    android:gravity="center"
-  />
-  <EditText 
-    android:id="@+id/taille"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:hint="Taille"
-    android:inputType="numberDecimal"
-  />
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+  >
+    <TextView 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" 
+      android:text="Taille : "
+      android:textStyle="bold"
+      android:textColor="#FF0000"
+      android:gravity="center"
+    />
+    <EditText 
+      android:id="@+id/taille"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content" 
+      android:hint="Taille"
+      android:inputType="numberDecimal"
+      android:layout_weight="1"
+    />
+  </LinearLayout>
   <RadioGroup
     android:id="@+id/group"
     android:layout_width="wrap_content"
@@ -59,18 +73,30 @@
     android:layout_height="wrap_content"
     android:text="Mega fonction !"
   />
-  <Button 
-    android:id="@+id/calcul"
-    android:layout_width="wrap_content"
+  <LinearLayout 
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Calculer l'IMC"
-  />
-  <Button 
-    android:id="@+id/raz"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="RAZ"
-  />
+    android:orientation="horizontal"
+  >
+    <Button 
+      android:id="@+id/calcul"
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      android:text="Calculer l'IMC"
+      android:layout_weight="1"
+      android:layout_marginLeft="25dip" 
+      android:layout_marginRight="25dip"
+    />
+    <Button 
+      android:id="@+id/raz"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="RAZ"
+      android:layout_weight="1" 
+      android:layout_marginLeft="25dip" 
+      android:layout_marginRight="25dip"
+    />
+  </LinearLayout>
   <TextView 
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" 
