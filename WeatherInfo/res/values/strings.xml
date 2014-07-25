@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="test_button">TestButton</string>
     <string name="editText">Edit Text</string>
+    <string name="Find">find</string>
+    <string name="City">city</string>
 
 </resources>
