@@ -1,20 +1,16 @@
 package com.fmqw.weatherinfo;
 
+import java.util.Locale;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import com.fmqw.weatherinfo.fragments.CurrentWeatherFragment;
 
 public class MainActivity extends FragmentActivity {
-	/**
-	 * The number of pages (wizard steps) to show in this demo.
-	 */
-	private static final int NUM_PAGES = 5;
-
 	/**
 	 * The pager widget, which handles animation and allows swiping horizontally to access previous
 	 * and next wizard steps.
@@ -24,7 +20,7 @@ public class MainActivity extends FragmentActivity {
 	/**
 	 * The pager adapter, which provides the pages to the view pager widget.
 	 */
-	private PagerAdapter mPagerAdapter;
+	private ScreenSlidePagerAdapter mPagerAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +56,39 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			return new CurrentWeatherFragment();
+			Fragment fragment;
+			switch(position) {
+			case 0:
+				fragment = new CurrentWeatherFragment();
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid section number");
+			}
+
+			return fragment;
 		}
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 1;
+		}
+		
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch (position) {
+			case 0:
+				return getString(R.string.title_section1).toUpperCase(l);
+			}
+			return null;
+		}
+		
+		private String getFragmentTag(int pos) {
+			return "android:switcher" + R.id.pager + ":" + pos;
+		}
+
+		public CurrentWeatherFragment getCurrentWeatherFragment() {
+			return (CurrentWeatherFragment) getSupportFragmentManager().findFragmentByTag(getFragmentTag(0));
 		}
 	}
 }
