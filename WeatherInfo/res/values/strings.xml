@@ -9,6 +9,7 @@
     <string name="Find">find</string>
     <string name="city_field">city</string>
     <string name="title_section1">Current weather</string>
+    <string name="code_language">FR</string>
     
 
 </resources>
