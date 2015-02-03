@@ -1,56 +1,71 @@
 package com.fmqw.weatherinfo;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import com.fmqw.weatherinfo.fragments.CurrentWeatherFragment;
 
-/**
- * @author flavien
- *
- */
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
+	/**
+	 * The number of pages (wizard steps) to show in this demo.
+	 */
+	private static final int NUM_PAGES = 5;
 
-	private final String defaut = "No result";
-	TextView cityText;
-	TextView condDescr;
-	TextView temp;
-	TextView hum;
-	TextView press;
-	TextView windSpeed;
-	TextView windDeg;
-	ImageView imgView;
-	
+	/**
+	 * The pager widget, which handles animation and allows swiping horizontally to access previous
+	 * and next wizard steps.
+	 */
+	private ViewPager mPager;
+
+	/**
+	 * The pager adapter, which provides the pages to the view pager widget.
+	 */
+	private PagerAdapter mPagerAdapter;
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		String city = "Rome,IT";
 
-		cityText = (TextView) findViewById(R.id.cityText);
-		condDescr = (TextView) findViewById(R.id.condDescr);
-		temp = (TextView) findViewById(R.id.temp);
-		hum = (TextView) findViewById(R.id.hum);
-		press = (TextView) findViewById(R.id.press);
-		windSpeed = (TextView) findViewById(R.id.windSpeed);
-		windDeg = (TextView) findViewById(R.id.windDeg);
-		imgView = (ImageView) findViewById(R.id.condIcon);
-
-		// TODO
-		/*JSONWeatherTask task = new JSONWeatherTask();
-		task.execute(new String[]{city});*/
+		// Instantiate a ViewPager and a PagerAdapter.
+		mPager = (ViewPager) findViewById(R.id.pager);
+		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+		mPager.setAdapter(mPagerAdapter);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (mPager.getCurrentItem() == 0) {
+			// If the user is currently looking at the first step, allow the system to handle the
+			// Back button. This calls finish() on this activity and pops the back stack.
+			super.onBackPressed();
+		} else {
+			// Otherwise, select the previous step.
+			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+		}
+	}
+
+	/**
+	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+	 * sequence.
+	 */
+	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+		public ScreenSlidePagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			return new CurrentWeatherFragment();
+		}
+
+		@Override
+		public int getCount() {
+			return 2;
+		}
+	}
 }

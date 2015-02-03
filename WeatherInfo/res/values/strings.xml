@@ -7,6 +7,8 @@
     <string name="test_button">TestButton</string>
     <string name="editText">Edit Text</string>
     <string name="Find">find</string>
-    <string name="City">city</string>
+    <string name="city_field">city</string>
+    <string name="title_section1">Current weather</string>
+    
 
 </resources>
