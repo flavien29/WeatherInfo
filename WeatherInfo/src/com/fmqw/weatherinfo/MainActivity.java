@@ -2,16 +2,23 @@ package com.fmqw.weatherinfo;
 
 import java.util.Locale;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.fmqw.weatherinfo.fragments.CurrentWeatherFragment;
+import com.fmqw.weatherinfo.utils.CityPreference;
+import com.fmqw.weatherinfo.utils.Utils;
 
 public class MainActivity extends FragmentActivity {
 	/**
@@ -45,9 +52,42 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.change_city) {
-			// TODO
+			showInputDialog();
 		}
 		return false;
+	}
+	
+	private void showInputDialog(){
+	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    builder.setTitle("Change city");
+	    final EditText input = new EditText(this);
+	    input.setInputType(InputType.TYPE_CLASS_TEXT);
+	    builder.setView(input);
+	    builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
+	        @Override
+	        public void onClick(DialogInterface dialog, int which) {
+	            changeCity(input.getText().toString());
+	        }
+	    });
+	    builder.show();
+	}
+	
+
+	public void changeCity(String city) {
+		if (city != null && !"".equals(city.trim())) {
+			city = Utils.capitalize(city.trim());
+
+			CurrentWeatherFragment currentWeatherFragment = (CurrentWeatherFragment) mPagerAdapter.getItem(0);
+
+			// change city for all fragments
+			if (currentWeatherFragment != null) {
+				currentWeatherFragment.changeCity(city);
+			    new CityPreference(this).setCity(city);
+			}
+
+		} else {
+			Toast.makeText(this, "You must enter a city !", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
