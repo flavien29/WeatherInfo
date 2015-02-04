@@ -4,6 +4,7 @@
     <string name="app_name">WeatherInfo</string>
     <string name="hello_world">Hello world!</string>
     <string name="change_city">Change city</string>
+    <string name="refresh">Refresh</string>
     <string name="test_button">TestButton</string>
     <string name="editText">Edit Text</string>
     <string name="Find">find</string>

@@ -58,11 +58,41 @@ public class CurrentWeatherFragment extends Fragment {
 		updateWeatherData(new CityPreference(getActivity()).getCity());
 	}
 	
+//	private void updateWeatherData(final String city){
+//	    new Thread(){
+//	        public void run(){
+//	        	final String data = HTTPRequest.loadCurrentWeather(getActivity(), city);
+//	            if(data == null){
+//	                handler.post(new Runnable(){
+//	                    public void run(){
+//	                        Toast.makeText(getActivity(),
+//	                                getActivity().getString(R.string.place_not_found),
+//	                                Toast.LENGTH_LONG).show();
+//	                    }
+//	                });
+//	            } else {
+//		            final JSONObject json;
+//					try {
+//						json = new JSONObject(data);
+//		                handler.post(new Runnable(){
+//		                    public void run(){
+//		                        renderWeather(json);
+//		                    }
+//		                });
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//	            }              
+//	        }
+//	    }.start();
+//	}
+	
 	private void updateWeatherData(final String city){
 	    new Thread(){
 	        public void run(){
-	        	final String data = HTTPRequest.loadCurrentWeather(getActivity(), city);
-	            if(data == null){
+	            final JSONObject json = HTTPRequest.getJSON(getActivity(), city);
+	            if(json == null){
 	                handler.post(new Runnable(){
 	                    public void run(){
 	                        Toast.makeText(getActivity(),
@@ -71,18 +101,11 @@ public class CurrentWeatherFragment extends Fragment {
 	                    }
 	                });
 	            } else {
-		            final JSONObject json;
-					try {
-						json = new JSONObject(data);
-		                handler.post(new Runnable(){
-		                    public void run(){
-		                        renderWeather(json);
-		                    }
-		                });
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+	                handler.post(new Runnable(){
+	                    public void run(){
+	                        renderWeather(json);
+	                    }
+	                });
 	            }              
 	        }
 	    }.start();
@@ -92,15 +115,14 @@ public class CurrentWeatherFragment extends Fragment {
 	    try {
 	        cityField.setText(json.getString("name").toUpperCase(Locale.US) +
 	                ", " +
-	                json.getJSONObject("sys").getString("country"));
-	         
+	                json.getJSONObject("sys").getString("country"));  
 	        JSONObject details = json.getJSONArray("weather").getJSONObject(0);
 	        JSONObject main = json.getJSONObject("main");
 	        detailsField.setText(
 	                details.getString("description").toUpperCase(Locale.US) +
 	                "\n" + "Humidity: " + main.getString("humidity") + "%" +
 	                "\n" + "Pressure: " + main.getString("pressure") + " hPa");
-	         
+
 	        currentTemperatureField.setText(
 	                    String.format("%.2f", main.getDouble("temp"))+ " ℃");
 	 
@@ -120,6 +142,11 @@ public class CurrentWeatherFragment extends Fragment {
 	
 	public void changeCity(String city){
 	    updateWeatherData(city);
+	    
+	}
+	
+	public void refresh() {
+		updateWeatherData(new CityPreference(getActivity()).getCity());
 	}
 	
 	@Override

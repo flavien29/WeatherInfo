@@ -30,7 +30,7 @@ public class MainActivity extends FragmentActivity {
 	/**
 	 * The pager adapter, which provides the pages to the view pager widget.
 	 */
-	private ScreenSlidePagerAdapter mPagerAdapter;
+	private SectionsPagerAdapter mPagerAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,9 @@ public class MainActivity extends FragmentActivity {
 
 		// Instantiate a ViewPager and a PagerAdapter.
 		mPager = (ViewPager) findViewById(R.id.pager);
-		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+		mPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);
+		
 	}
 	
 	@Override
@@ -53,6 +54,8 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.change_city) {
 			showInputDialog();
+		} else if (item.getItemId() == R.id.refresh) {
+			refresh();
 		}
 		return false;
 	}
@@ -77,7 +80,8 @@ public class MainActivity extends FragmentActivity {
 		if (city != null && !"".equals(city.trim())) {
 			city = Utils.capitalize(city.trim());
 
-			CurrentWeatherFragment currentWeatherFragment = (CurrentWeatherFragment) mPagerAdapter.getItem(0);
+			// TODO
+			CurrentWeatherFragment currentWeatherFragment = (CurrentWeatherFragment)getSupportFragmentManager().findFragmentById(R.id.pager);
 
 			// change city for all fragments
 			if (currentWeatherFragment != null) {
@@ -88,6 +92,14 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			Toast.makeText(this, "You must enter a city !", Toast.LENGTH_SHORT).show();
 		}
+	}
+	
+	public void refresh() {
+			CurrentWeatherFragment currentWeatherFragment = mPagerAdapter.getCurrentWeatherFragment();
+			
+			if (currentWeatherFragment != null) {
+				currentWeatherFragment.refresh();
+			}
 	}
 
 	@Override
@@ -106,8 +118,8 @@ public class MainActivity extends FragmentActivity {
 	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
 	 * sequence.
 	 */
-	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-		public ScreenSlidePagerAdapter(FragmentManager fm) {
+	private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
 
